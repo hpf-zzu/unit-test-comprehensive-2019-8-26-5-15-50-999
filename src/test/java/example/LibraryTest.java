@@ -3,6 +3,8 @@ package example;/*
  */
 
 import org.junit.jupiter.api.*;
+import sun.awt.X11.XInputMethod;
+import tw.commands.GuessInputCommand;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -85,5 +87,46 @@ class LibraryTest {
             // Simulate task that takes more than 10 ms.
             Thread.sleep(100);
         });
+    }
+    @Test
+    public void should_print_array(){
+        //given
+        String inputString = "1234";
+        //when
+        int[] input = new GuessInputCommand().toArray(inputString);
+        //then
+        Assertions.assertEquals(input[0], 1);
+        Assertions.assertEquals(input[1], 2);
+        Assertions.assertEquals(input[2], 3);
+        Assertions.assertEquals(input[3], 4);
+    }
+    @Test
+    public void should_get_Anumber(){
+        //given
+        int[] array = {1,2,3,4};
+        int[] answer = {5,2,3,1};
+        //when
+        int num = new GuessInputCommand().getSameAnumber(array,answer);
+        //then
+        Assertions.assertEquals(num,2);
+    }
+    @Test
+    public void should_get_Bnumber(){
+        //given
+        int[] array = {1,2,3,4};
+        int[] answer = {5,2,3,1};
+        //when
+        int num = new GuessInputCommand().getSameBnumber(new GuessInputCommand().getSameCount(array,answer)
+                ,new GuessInputCommand().getSameAnumber(array,answer));
+        //then
+        Assertions.assertEquals(num,1);
+    }
+    @Test
+    public void should_print(int count1 , int count2){
+
+        Assertions.assertSame(new GuessInputCommand().printAnswer(count1,count2),"2A1B");
+
+
+
     }
 }
